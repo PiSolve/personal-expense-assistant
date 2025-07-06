@@ -32,21 +32,11 @@ jobs:
         echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
         echo "GOOGLE_WEB_CLIENT_ID=${{ secrets.GOOGLE_WEB_CLIENT_ID }}" >> .env
         
-    - name: Create web-only pubspec.yaml
-      run: |
-        # Create a backup of original pubspec.yaml
-        cp pubspec.yaml pubspec.yaml.backup
-        # Remove permission_handler dependency for web build
-        sed -i '/permission_handler:/d' pubspec.yaml
-        
     - name: Install dependencies
       run: flutter pub get
-        
-    - name: Enable web platform
-      run: flutter config --enable-web
       
     - name: Build Flutter Web
-      run: flutter build web --release --base-href "/personal-expense-assistant/" --web-renderer html
+      run: flutter build web --release --base-href "/personal-expense-assistant/"
       
     - name: Debug - List build output
       run: |

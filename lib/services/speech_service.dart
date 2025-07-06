@@ -16,23 +16,15 @@ class SpeechService {
   Future<bool> initialize() async {
     try {
       // On web, permission is handled by the browser
-      // On mobile, we would need permission_handler, but we're web-only now
-      if (kIsWeb) {
-        // Initialize speech to text directly on web
-        _isInitialized = await _speechToText.initialize(
-          onError: (error) {
-            print('Speech recognition error: $error');
-          },
-          onStatus: (status) {
-            print('Speech recognition status: $status');
-          },
-        );
-      } else {
-        // For mobile platforms, we would need permission_handler
-        // For now, return false for non-web platforms
-        print('Speech recognition not available on this platform');
-        return false;
-      }
+      // speech_to_text package supports web platform
+      _isInitialized = await _speechToText.initialize(
+        onError: (error) {
+          print('Speech recognition error: $error');
+        },
+        onStatus: (status) {
+          print('Speech recognition status: $status');
+        },
+      );
       
       return _isInitialized;
     } catch (error) {

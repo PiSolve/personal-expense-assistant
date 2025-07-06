@@ -30,7 +30,6 @@ dependencies:
   
   # Voice & Speech
   speech_to_text: ^6.6.0
-  permission_handler: ^11.0.1
   
   # OpenAI Integration
   dart_openai: ^5.1.0
