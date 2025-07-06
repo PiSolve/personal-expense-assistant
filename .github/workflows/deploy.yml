@@ -3,8 +3,6 @@ name: Build and Deploy Flutter Web to GitHub Pages
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
 
 # Allow GITHUB_TOKEN to deploy to GitHub Pages
 permissions:
@@ -42,9 +40,7 @@ jobs:
         sed -i '/permission_handler:/d' pubspec.yaml
         
     - name: Install dependencies
-      run: |
-        flutter pub get
-        flutter doctor
+      run: flutter pub get
         
     - name: Enable web platform
       run: flutter config --enable-web
@@ -52,6 +48,18 @@ jobs:
     - name: Build Flutter Web
       run: flutter build web --release --base-href "/personal-expense-assistant/" --web-renderer html
       
+    - name: Debug - List build output
+      run: |
+        echo "Listing build/web contents:"
+        ls -la build/web/
+        echo "Checking for index.html:"
+        if [ -f build/web/index.html ]; then
+          echo "index.html exists"
+          head -20 build/web/index.html
+        else
+          echo "index.html NOT found"
+        fi
+        
     - name: Setup Pages
       uses: actions/configure-pages@v4
       
