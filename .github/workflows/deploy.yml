@@ -57,6 +57,12 @@ jobs:
       uses: actions/upload-pages-artifact@v3
       with:
         path: './build/web'
+        
+    - name: Debug artifact upload
+      run: |
+        echo "Artifact should be uploaded from: ./build/web"
+        echo "Checking if upload was successful..."
+        ls -la ./build/web/
 
   deploy:
     environment:
@@ -67,4 +73,9 @@ jobs:
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
-        uses: actions/deploy-pages@v4 
+        uses: actions/deploy-pages@v4
+        
+      - name: Debug deployment result
+        run: |
+          echo "Deployment URL: ${{ steps.deployment.outputs.page_url }}"
+          echo "Deployment status: ${{ steps.deployment.outcome }}" 
