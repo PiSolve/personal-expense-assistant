@@ -1,5 +1,5 @@
 import 'package:speech_to_text/speech_to_text.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:flutter/foundation.dart';
 
 class SpeechService {
   final SpeechToText _speechToText = SpeechToText();
@@ -15,21 +15,24 @@ class SpeechService {
   // Initialize speech recognition
   Future<bool> initialize() async {
     try {
-      // Request microphone permission
-      final permission = await Permission.microphone.request();
-      if (permission != PermissionStatus.granted) {
+      // On web, permission is handled by the browser
+      // On mobile, we would need permission_handler, but we're web-only now
+      if (kIsWeb) {
+        // Initialize speech to text directly on web
+        _isInitialized = await _speechToText.initialize(
+          onError: (error) {
+            print('Speech recognition error: $error');
+          },
+          onStatus: (status) {
+            print('Speech recognition status: $status');
+          },
+        );
+      } else {
+        // For mobile platforms, we would need permission_handler
+        // For now, return false for non-web platforms
+        print('Speech recognition not available on this platform');
         return false;
       }
-      
-      // Initialize speech to text
-      _isInitialized = await _speechToText.initialize(
-        onError: (error) {
-          print('Speech recognition error: $error');
-        },
-        onStatus: (status) {
-          print('Speech recognition status: $status');
-        },
-      );
       
       return _isInitialized;
     } catch (error) {

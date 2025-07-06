@@ -29,16 +29,28 @@ jobs:
       with:
         flutter-version: '3.19.6'
         
-    - name: Install dependencies
-      run: flutter pub get
-      
     - name: Create .env file with secrets
       run: |
         echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
         echo "GOOGLE_WEB_CLIENT_ID=${{ secrets.GOOGLE_WEB_CLIENT_ID }}" >> .env
         
+    - name: Create web-only pubspec.yaml
+      run: |
+        # Create a backup of original pubspec.yaml
+        cp pubspec.yaml pubspec.yaml.backup
+        # Remove permission_handler dependency for web build
+        sed -i '/permission_handler:/d' pubspec.yaml
+        
+    - name: Install dependencies
+      run: |
+        flutter pub get
+        flutter doctor
+        
+    - name: Enable web platform
+      run: flutter config --enable-web
+      
     - name: Build Flutter Web
-      run: flutter build web --release --base-href "/personal-expense-assistant/"
+      run: flutter build web --release --base-href "/personal-expense-assistant/" --web-renderer html
       
     - name: Setup Pages
       uses: actions/configure-pages@v4
