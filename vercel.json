@@ -1,0 +1,22 @@
+{
+  "buildCommand": "flutter build web --release",
+  "outputDirectory": "build/web",
+  "installCommand": "flutter pub get",
+  "framework": null,
+  "functions": {},
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "Cross-Origin-Embedder-Policy",
+          "value": "require-corp"
+        },
+        {
+          "key": "Cross-Origin-Opener-Policy",
+          "value": "same-origin"
+        }
+      ]
+    }
+  ]
+} 
