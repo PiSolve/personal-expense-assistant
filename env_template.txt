@@ -5,6 +5,5 @@
 OPENAI_API_KEY=your_openai_api_key_here
 OPENAI_MODEL=gpt-3.5-turbo
 
-# Google Services Configuration
-GOOGLE_CLIENT_ID=your_google_client_id_here.apps.googleusercontent.com
+# Google Services Configuration  
 GOOGLE_WEB_CLIENT_ID=your_google_web_client_id_here.apps.googleusercontent.com 

@@ -12,7 +12,6 @@ class AppConfig {
   static String get openaiModel => dotenv.env['OPENAI_MODEL'] ?? 'gpt-3.5-turbo';
   
   // Google Services Configuration
-  static String get googleSignInClientId => dotenv.env['GOOGLE_CLIENT_ID'] ?? '';
   static String get googleSignInWebClientId => dotenv.env['GOOGLE_WEB_CLIENT_ID'] ?? '';
   
   // App Settings
@@ -74,10 +73,6 @@ class AppConfig {
     
     if (openaiApiKey.isEmpty || openaiApiKey == 'your_openai_api_key_here') {
       warnings.add('OpenAI API key is not configured');
-    }
-    
-    if (googleSignInClientId.isEmpty || googleSignInClientId == 'your_google_client_id_here.apps.googleusercontent.com') {
-      warnings.add('Google Sign-In client ID is not configured');
     }
     
     if (googleSignInWebClientId.isEmpty || googleSignInWebClientId == 'your_google_web_client_id_here.apps.googleusercontent.com') {
