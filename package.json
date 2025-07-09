@@ -1,0 +1,10 @@
+{
+  "name": "personal-expense-assistant",
+  "version": "1.0.0",
+  "description": "Flutter web expense tracking app with AI",
+  "scripts": {
+    "build": "./build.sh"
+  },
+  "devDependencies": {},
+  "dependencies": {}
+} 

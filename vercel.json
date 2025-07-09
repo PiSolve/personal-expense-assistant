@@ -1,4 +1,7 @@
 {
+  "buildCommand": "npm run build",
+  "outputDirectory": "build/web",
+  "installCommand": "echo 'No npm dependencies to install'",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
