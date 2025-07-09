@@ -1,0 +1,50 @@
+name: Build Flutter Web and Deploy to Vercel
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: 📚 Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: ☕ Setup Flutter
+      uses: subosito/flutter-action@v2
+      with:
+        flutter-version: '3.19.6'
+        channel: 'stable'
+        cache: true
+        
+    - name: 🔧 Create .env file with secrets
+      run: |
+        echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
+        echo "OPENAI_MODEL=${{ secrets.OPENAI_MODEL }}" >> .env
+        echo "GOOGLE_WEB_CLIENT_ID=${{ secrets.GOOGLE_WEB_CLIENT_ID }}" >> .env
+        
+    - name: 📦 Get Flutter dependencies
+      run: flutter pub get
+      
+    - name: 🏗️ Build Flutter web
+      run: flutter build web --release --web-renderer html
+      
+    - name: 📁 List build output (debug)
+      run: |
+        echo "Build completed! Checking output..."
+        ls -la build/web/
+        echo "index.html exists:" 
+        test -f build/web/index.html && echo "✅ YES" || echo "❌ NO"
+        
+    - name: 🚀 Deploy to Vercel
+      uses: vercel/action@v1
+      with:
+        vercel-token: ${{ secrets.VERCEL_TOKEN }}
+        vercel-org-id: ${{ secrets.VERCEL_ORG_ID }}
+        vercel-project-id: ${{ secrets.VERCEL_PROJECT_ID }}
+        working-directory: ./build/web
+        vercel-args: '--prod' 
